@@ -20,9 +20,15 @@ import pdb
 start_day = datetime(2015, 1, 1, 0, 0)  # 01/01/2015
 timestamp = int(start_day.timestamp())
 score_threshold = 10
-savedir = './earthporn'
+subreddit = 'earthporn'
 threads = 8
 span = 86400                            # Get posts per day
+
+# Auto
+savedir = './{}'.format(subreddit)
+# Make savedir
+if not os.path.exists(savedir):
+    os.makedirs(savedir)
 
 #########
 # UTILS #
@@ -46,7 +52,7 @@ def query(after, before):
     `after` and `before` are unix time dates
     '''
 
-    url = "https://api.pushshift.io/reddit/submission/search/?after={}&before={}&sort_type=score&sort=desc&subreddit=earthporn&size=1000".format(after, before)
+    url = "https://api.pushshift.io/reddit/submission/search/?after={}&before={}&sort_type=score&sort=desc&subreddit={}&size=1000".format(after, before, subreddit)
     return urllib.request.urlopen(url).read()
 
 def download_image(submission):
